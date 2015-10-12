@@ -14,16 +14,37 @@ module PriceLog
     base.extend(ClassMethods)
   end
 
+
   module ClassMethods
 
-
-    def has_price_log(options = {})
+    def has_price_log(name, options = {})
       configuration = {
-        name:         nil,
-        dependent:     :destroy
+        name: name,
+        dependent: :destroy
       }
-
       configuration.update(options) if options.is_a?(Hash)
+
+      _field_name_ = configuration[:name]
+      _relation_name_ = "all_#{_field_name_}_price_logs".to_sym
+
+
+      has_many _relation_name_, -> (object){ where("priceable_field_name = ?", _field_name_.to_sym)},  {as: :priceable, dependent: :destroy, class_name: "PriceLogEntry"}
+
+
+      class_eval %{
+        def #{_field_name_}(date=nil)
+          self.#{_relation_name_}.for_date(self.class.name, self.id, '#{_field_name_}', date).first
+        end
+
+        def #{_field_name_}=(amount)
+          ple = PriceLogEntry.new(price: amount, start_date: DateTime.now, priceable_field_name: '#{_field_name_}')
+          self.#{_relation_name_} << ple
+        end
+
+        def #{_field_name_}_dump
+          self.#{_relation_name_}.each(&:pretty_print)
+        end
+      }
 
     end
 
@@ -31,3 +52,5 @@ module PriceLog
   end
 
 end
+
+ActiveRecord::Base.send(:include, PriceLog)

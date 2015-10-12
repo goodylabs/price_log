@@ -1,0 +1,3 @@
+test:
+  adapter: sqlite3
+  database: price_log_tests
