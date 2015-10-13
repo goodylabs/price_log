@@ -50,7 +50,7 @@ Dir["spec/models/**/*.rb"].each { |f| require File.expand_path(f) }
 
 MoneyRails::Hooks.init
 
-require File.expand_path(File.dirname(__FILE__) + '/../lib/generators/price_log/templates/price_logs_migration.rb')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/generators/price_log/templates/create_price_log_entries.rb')
 load File.expand_path(File.dirname(__FILE__) + '/../lib/generators/price_log/templates/price_log_entry.rb')
 
 RSpec.configure do |config|
@@ -59,12 +59,12 @@ RSpec.configure do |config|
   # config.include DeclarationMatchers
 
   config.before do
-    PriceLogsMigration.up
+    CreatePriceLogEntries.up
     ProjectsMigration.up
   end
 
   config.after do
-    PriceLogsMigration.down
+    CreatePriceLogEntries.down
     ProjectsMigration.down
     # Timecop.return
     FactoryGirl.reload

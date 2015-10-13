@@ -13,7 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = ""
   spec.license       = "MIT"
 
-  spec.files         = ['lib/price_log.rb'] #`git ls-files -z`.split("\x0")
+  # spec.files         = ['lib/price_log.rb'] #`git ls-files -z`.split("\x0")
+  spec.files         = ['Gemfile','LICENSE.txt','README.md','Rakefile','lib/generators/price_log/templates/price_log_entry.rb','lib/generators/price_log/templates/create_price_log_entries.rb','lib/price_log.rb','lib/price_log/railtie.rb','lib/price_log/version.rb','lib/price_log_methods.rb']
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
   spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   spec.require_paths = ["lib"]

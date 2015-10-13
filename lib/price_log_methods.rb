@@ -7,10 +7,6 @@ module PriceLog
       price_log_model.scope :recent, -> { price_log_model.reorder('created_at DESC') }
     end
 
-    # def is_comment_type?(type)
-    #   type.to_s == role.singularize.to_s
-    # end
-
     module Finders
 
       def find_price_log_for_priceable(priceable_type, priceable_id, priceable_field_name)
