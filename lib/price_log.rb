@@ -37,7 +37,7 @@ module PriceLog
         end
 
         def #{_field_name_}=(amount)
-          ple = PriceLogEntry.new(price: amount, start_date: DateTime.now, priceable_field_name: '#{_field_name_}')
+          ple = PriceLogEntry.new(priceable: self, price: amount, start_date: DateTime.now, priceable_field_name: '#{_field_name_}')
           self.#{_relation_name_} << ple
         end
 
