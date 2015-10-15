@@ -1,7 +1,7 @@
 class CreatePriceLogEntries < ActiveRecord::Migration
   def self.up
     create_table :price_log_entries do |t|
-      t.money :price
+      t.monetize :price
       t.datetime :start_date
       t.datetime :end_date
 
