@@ -26,9 +26,9 @@ module PriceLog
 
       _field_name_ = configuration[:name]
       _relation_name_ = "all_#{_field_name_}_price_logs".to_sym
-
-
       has_many _relation_name_, -> (object){ where("priceable_field_name = ?", _field_name_.to_sym)},  {as: :priceable, dependent: :destroy, class_name: "PriceLogEntry", validate:false}
+
+      _current_value_field_name_ = options[:current_value_field_name]
 
       class_eval %{
         def #{_field_name_}(date=nil)
@@ -37,6 +37,8 @@ module PriceLog
 
         def #{_field_name_}=(amount)
           ple = PriceLogEntry.new(priceable: self, price: amount, start_date: DateTime.now, priceable_field_name: '#{_field_name_}')
+
+          #{ !_current_value_field_name_.blank? ? "self.#{_current_value_field_name_} = amount if self.respond_to?('#{_current_value_field_name_}')" : ''}
           self.#{_relation_name_} << ple
         end
 
