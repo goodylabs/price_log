@@ -28,8 +28,7 @@ module PriceLog
       _relation_name_ = "all_#{_field_name_}_price_logs".to_sym
 
 
-      has_many _relation_name_, -> (object){ where("priceable_field_name = ?", _field_name_.to_sym)},  {as: :priceable, dependent: :destroy, class_name: "PriceLogEntry"}
-
+      has_many _relation_name_, -> (object){ where("priceable_field_name = ?", _field_name_.to_sym)},  {as: :priceable, dependent: :destroy, class_name: "PriceLogEntry", validate:false}
 
       class_eval %{
         def #{_field_name_}(date=nil)
