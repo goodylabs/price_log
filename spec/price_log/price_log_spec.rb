@@ -45,12 +45,12 @@ describe PriceLog do
     p2 = Project.find(@p2id)
     p2.hourly_rate_dump
 
-    expect(p2.hourly_rate.start_date).to be < DateTime.now
-    expect(p2.hourly_rate.end_date).to be_nil
+    expect(p2.hourly_rate_log.start_date).to be < DateTime.now
+    expect(p2.hourly_rate_log.end_date).to be_nil
 
     d1 = 4.days.ago
-    expect(p2.hourly_rate(d1).start_date).to be <= d1
-    expect(p2.hourly_rate(d1).end_date).not_to be_nil
+    expect(p2.hourly_rate_log(d1).start_date).to be <= d1
+    expect(p2.hourly_rate_log(d1).end_date).not_to be_nil
 
     # no such value
     d1 = 14.days.ago
@@ -64,7 +64,7 @@ describe PriceLog do
     p2.hourly_rate = m
     # a = p2.all_hourly_rate_price_logs.for_date('Project', p2.id, 'hourly_rate', DateTime.now)
     # a = p2.all_hourly_rate_price_logs.where(priceable_id: p2.id, priceable_type: 'Project', priceable_field_name:'hourly_rate').where('start_date <= ? AND (end_date IS NULL OR end_date > ?)', DateTime.now, DateTime.now )
-    expect(p2.hourly_rate.price).to eq(m)
+    expect(p2.hourly_rate).to eq(m)
   end
 
 
@@ -78,12 +78,12 @@ describe PriceLog do
     n4 = p2.hourly_rate(4.day.ago)
     n5 = p2.hourly_rate(5.day.ago)
 
-    expect(n0.price.cents).to eq(1000)
-    expect(n1.price.cents).to eq(1000)
-    expect(n2.price.cents).to eq(2000)
-    expect(n3.price.cents).to eq(3000)
-    expect(n4.price.cents).to eq(4000)
-    expect(n5.price.cents).to eq(5000)
+    expect(n0.cents).to eq(1000)
+    expect(n1.cents).to eq(1000)
+    expect(n2.cents).to eq(2000)
+    expect(n3.cents).to eq(3000)
+    expect(n4.cents).to eq(4000)
+    expect(n5.cents).to eq(5000)
   end
 
 

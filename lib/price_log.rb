@@ -32,6 +32,11 @@ module PriceLog
 
       class_eval %{
         def #{_field_name_}(date=nil)
+          pl = self.#{_field_name_}_log(date)
+          pl.price unless pl.nil?
+        end
+
+        def #{_field_name_}_log(date=nil)
           self.#{_relation_name_}.for_date(self.class.name, self.id, '#{_field_name_}', date).first
         end
 
