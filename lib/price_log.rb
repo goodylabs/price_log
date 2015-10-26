@@ -34,7 +34,7 @@ module PriceLog
 
       class_eval %{
         def #{_field_name_}(date=nil)
-          #{ (_current_value_field_name_ == UNDEFINED_CURRENT_VALUE_FIELD_NAME) ? "return self.#{_current_value_field_name_} if self.respond_to?('#{_current_value_field_name_}') && date.nil? " : '' }
+          #{ (_current_value_field_name_ != UNDEFINED_CURRENT_VALUE_FIELD_NAME) ? "return self.#{_current_value_field_name_} if self.respond_to?('#{_current_value_field_name_}') && date.nil? " : '' }
           pl = self.#{_field_name_}_log(date)
           pl.price unless pl.nil?
 
@@ -47,7 +47,7 @@ module PriceLog
         def #{_field_name_}=(amount)
           ple = PriceLogEntry.new(priceable: self, price: amount, start_date: DateTime.now, priceable_field_name: '#{_field_name_}')
 
-          #{ (_current_value_field_name_ == UNDEFINED_CURRENT_VALUE_FIELD_NAME) ? "self.#{_current_value_field_name_} = amount if self.respond_to?('#{_current_value_field_name_}')" : ''}
+          #{ (_current_value_field_name_ != UNDEFINED_CURRENT_VALUE_FIELD_NAME) ? "self.#{_current_value_field_name_} = amount if self.respond_to?('#{_current_value_field_name_}')" : ''}
 
           self.#{_relation_name_} << ple
         end
